@@ -1,12 +1,13 @@
 package com.github.TrungLam;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,16 +21,19 @@ public class StarterItems extends JavaPlugin implements Listener{
 	public void onEnable(){
 		logger.info(this.getDescription().getFullName() + " is enabled");
 		getServer().getPluginManager().registerEvents(this, this);
+		getConfig().options().copyDefaults(true);
+		saveConfig();
 	}
-	
+
 	@EventHandler
-	public void onPlayerLogin(PlayerLoginEvent event){
+	public void onPlayerJoin(PlayerJoinEvent event){
 		Player player = event.getPlayer();
 		if (!player.hasPlayedBefore()){
-			ItemStack[] kit = {new ItemStack(Material.WOOD_AXE), new ItemStack(Material.WOOD_PICKAXE), 
-			new ItemStack(Material.WOOD_SWORD), new ItemStack(Material.WOOD_SPADE)};
-			for (ItemStack i : kit){
-				player.getInventory().addItem(i);
+			List<String> kit = StarterItems.this.getConfig().getStringList("kit");
+			ItemStack item;
+			for (String k : kit){
+				item = new ItemStack(Material.getMaterial(k));
+				player.getInventory().addItem(item);
 			}
 		}
 	}
