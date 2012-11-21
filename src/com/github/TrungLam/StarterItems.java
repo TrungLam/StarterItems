@@ -15,10 +15,10 @@ public class StarterItems extends JavaPlugin implements Listener{
 	public final Logger logger = Logger.getLogger("Minecraft");
 	
 	public void onDisable(){
-		logger.info(this.getDescription() + " is disabled");
+		logger.info(this.getDescription().getFullName() + " is disabled");
 	}
 	public void onEnable(){
-		logger.info(this.getDescription() + " is enabled");
+		logger.info(this.getDescription().getFullName() + " is enabled");
 		getServer().getPluginManager().registerEvents(this, this);
 	}
 	
